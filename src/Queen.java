@@ -1,13 +1,21 @@
-class Main {
-    public static void main(String[] args) {
-        // Reine placée en (4, 4)
-        Queen queen = new Queen(new Position(4, 4));
+class Queen extends Piece {
 
-        // Tests
-        System.out.println(queen.isValidMove(new Position(4, 7))); // true  — horizontal
-        System.out.println(queen.isValidMove(new Position(1, 4))); // true  — vertical
-        System.out.println(queen.isValidMove(new Position(7, 7))); // true  — diagonal
-        System.out.println(queen.isValidMove(new Position(5, 7))); // false — mouvement invalide
-        System.out.println(queen.isValidMove(new Position(3,10))); // false — hors plateau
+    Queen(Position position) {
+        super(position);
+    }
+
+    @Override
+    boolean isValidMove(Position newPosition) {
+        // Vérifier les limites du plateau via la classe parente
+        if (!super.isValidMove(newPosition)) return false;
+
+        int deltaRow = Math.abs(newPosition.row    - this.position.row);
+        int deltaCol = Math.abs(newPosition.column - this.position.column);
+
+        boolean horizontal = (newPosition.row    == this.position.row);
+        boolean vertical   = (newPosition.column == this.position.column);
+        boolean diagonal   = (deltaRow == deltaCol);
+
+        return horizontal || vertical || diagonal;
     }
 }
